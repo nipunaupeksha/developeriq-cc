@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Id;
-
 import javax.persistence.Table;
 
 @Entity

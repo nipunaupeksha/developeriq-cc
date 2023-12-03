@@ -12,24 +12,21 @@ import org.springframework.web.client.ResponseErrorHandler;
 
 import java.io.IOException;
 
-import static org.springframework.http.HttpStatus.Series.CLIENT_ERROR;
-import static org.springframework.http.HttpStatus.Series.SERVER_ERROR;
-
 @Component
 @Getter
 @ToString
 public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
     @Override
     public boolean hasError(ClientHttpResponse httpResponse) throws IOException {
-        return (httpResponse.getStatusCode().series() == CLIENT_ERROR || httpResponse.getStatusCode().series() == SERVER_ERROR);
+        return (httpResponse.getStatusCode().is4xxClientError() || httpResponse.getStatusCode().is5xxServerError());
     }
 
     @Override
     public void handleError(ClientHttpResponse httpResponse) throws IOException {
 
-        if (httpResponse.getStatusCode().series() == HttpStatus.Series.SERVER_ERROR) {
+        if (httpResponse.getStatusCode().is5xxServerError()) {
             throw new TechnicalErrorException(httpResponse.getStatusText(), String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        } else if (httpResponse.getStatusCode().series() == HttpStatus.Series.CLIENT_ERROR) {
+        } else if (httpResponse.getStatusCode().is4xxClientError()) {
             if (httpResponse.getStatusCode() == HttpStatus.NOT_FOUND) {
                 throw new NotFoundException(httpResponse.getStatusText(), String.valueOf(HttpStatus.NOT_FOUND.value()));
             }
