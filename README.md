@@ -10,3 +10,4 @@ This uses the following tech stack.
 - Kubernetes
 
 ## DevOps Flow with Instructions
+This uses AWS services.
