@@ -10,4 +10,4 @@ This uses the following tech stack.
 - Kubernetes
 
 ## DevOps Flow with Instructions
-This uses AWS services.
+The steps to configure this CICD pipeline are given below.
