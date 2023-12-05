@@ -3,6 +3,8 @@ This project was done as a partial completion of the course **CMM707 - Cloud Com
 This uses the following tech stack.
 - Spring/Java
 - AWS Web Services
-- Docker
+- GitHub
 - Jenkins
 - Ansible
+- Docker
+- Kubernetes
