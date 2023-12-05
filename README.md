@@ -8,3 +8,5 @@ This uses the following tech stack.
 - Ansible
 - Docker
 - Kubernetes
+
+## DevOps Flow with Instructions
