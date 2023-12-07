@@ -11,3 +11,8 @@ This uses the following tech stack.
 
 ## DevOps Flow with Instructions
 The steps to configure this CICD pipeline are given below.
+
+Step 1 - Create EC2 Instances
+- CMM707_Jenkins_Server
+- CMM707_Ansible_Server
+- CMM707_Kubernetes_Server
