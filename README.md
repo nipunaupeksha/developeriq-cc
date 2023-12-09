@@ -1,6 +1,6 @@
 # developeriq-cc
 This project was done as a partial completion of the course **CMM707 - Cloud Computing**.
-This uses the following tech stack.
+Following Tech-stack has been used in this project.
 - Spring/Java
 - AWS Web Services
 - GitHub
@@ -10,7 +10,7 @@ This uses the following tech stack.
 - Kubernetes
 
 ## DevOps Flow with Instructions
-The steps to configure this CICD pipeline are given below.
+The steps to configure this CI/CD pipeline are given below.
 
 ### Create EKSCTL_ROLE with following permissions.
 - IAMFullAccess
@@ -18,6 +18,12 @@ The steps to configure this CICD pipeline are given below.
 - AWSCloudFormationFullAccess
 
 ### Create RDS database for DEV, UAT and PROD environments and create databases.
+- Create `developeriqdev` as the initial database.
+- Execute following commands to create `developeriquat` and `developeriqprod`.
+```bash
+create database developeriquat;
+create database developeriqprod; 
+```
 
 ### Create EC2 Instances
 - CMM707_Jenkins_Server
@@ -36,13 +42,14 @@ sudo dnf install java-17-amazon-corretto -y
 sudo yum install jenkins -y
 ```
 
-Check Jenkins Status
+- Check Jenkins Status
 ```bash
 service jenkins start
 service jenkins status
 ```
 
 ### Install Maven and set JDK and Maven configurations in Jenkins
+- Dowload Maven.
 ```bash
 cd /opt
 wget https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
@@ -50,7 +57,7 @@ tar -xvzf apache-maven-3.9.6-bin.tar.gz
 mv apache-maven-3.9.6 maven
 ```
 
-Set Java and Maven configurations in `~/.bash_profile`
+- Set Java and Maven configurations in `~/.bash_profile`
 ```bash
 # .bash_profile
 # Get the aliases and functions
@@ -67,13 +74,14 @@ PATH=$PATH:$HOME/bin:$JAVA_HOME:$M2_HOME:$M2
 export PATH
 ```
 
-Set Jenkins Maven and JDK configurations by going to `Manage Jenkins` →  `Settings`
+- Set Jenkins Maven and JDK configurations by going to `Manage Jenkins` →  `Settings`
 
 ### Install Git and Configure it on Jenkins
+- Install Git.
 ```bash
 yum install git
 ```
-Set Jenkins Git configurations by going to `Manage Jenkins` →  `Settings`
+- Set Jenkins Git configurations by going to `Manage Jenkins` →  `Settings`
 
 ### Install Ansible on CMM707_Ansible_Server
 ```bash
@@ -85,14 +93,14 @@ python --version
 ansible --version
 ```
 
-Update `visudo` file.
+- Update `visudo` file.
 ```bash
 ...
 ansadmin ALL=(ALL)  NOPASSWD: ALL
 ...
 ```
 
-Update `/etc/ssh/sshd_config` file.
+- Update `/etc/ssh/sshd_config` file.
 ```bash
 ...
 PasswordAuthentication yes
@@ -100,12 +108,13 @@ PasswordAuthentication yes
 ...
 ```
 
-Reload `sshd` service.
+- Reload `sshd` service.
 ```bash
 reload sshd.service
 ```
 
 ### Install Docker on CMM707_Ansible_Server
+- Install Docker.
 ```bash
 sudo su - ansadmin
 sudo yum install docker -y
@@ -114,6 +123,7 @@ sudo service docker start
 ```
 
 ### Create `/opt/docker` directory and add Dockerfile.
+- Create `/opt/docker` directory.
 ```bash
 sudo mkdir /opt/docker
 cd /opt
@@ -121,21 +131,29 @@ chown -R ansadmin:ansadmin docker
 ```
 
 ### Login to DockerHub
+- Login to DockerHub
 ```bash
 docker login
 ```
 
 ### Install `kubectl` and `eksctl` on CMM707_Kubernetes_Server
+- Install `awscli`.
 ```bash
 sudo su -
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
+```
 
+- Install `kubectl`.
+```bash
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.3/2023-11-14/bin/linux/amd64/kubectl
 chmod +x kubectl
 mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
+```
 
+- Install `eksctl`.
+```
 ARCH=amd64
 PLATFORM=$(uname -s)_$ARCH
 curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
@@ -143,9 +161,11 @@ curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_ch
 tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
 sudo mv /tmp/eksctl /usr/local/bin
 ```
-### Enable communication between CMM707_Ansible_Server and CMM707_Kubernetes_Server
 
-Create `/opt/docker/hosts` file in CMM707_Ansible_Server.
+### Enable communication between CMM707_Ansible_Server and CMM707_Kubernetes_Server
+- Create a new user named `ansadmin` in CMM707_Kubernetes_Server by following how you created and configured `ansadmin` user in CMM707_Ansible_Server.
+
+- Create `/opt/docker/hosts` file in CMM707_Ansible_Server.
 ```bash
 localhost 
 
@@ -156,7 +176,7 @@ localhost
 176.1.23.2
 ```
 
-Generate SSH Key and share it with CMM707_Kubernetes_Server
+- Generate SSH Key and share it with CMM707_Kubernetes_Server
 ```bash
 sudo su - ansadmin
 ssh-keygen
@@ -402,4 +422,4 @@ spec:
 ```
 
 ### Create Jenkins Pipelines and Deploy the deployments
-Use Jenkins `post-build options` to integrate builds properly and create the CI/CD pipeline.
+- Use Jenkins `post-build options` to integrate builds properly and create the CI/CD pipeline.
