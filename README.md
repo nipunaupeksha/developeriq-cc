@@ -12,12 +12,12 @@ The following Tech-stack has been used in this project.
 ## DevOps Flow with Instructions
 The steps to configure this CI/CD pipeline are given below.
 
-### Create EKSCTL_ROLE with following permissions.
+### Create EKSCTL_ROLE with the following permissions.
 - IAMFullAccess
 - AmazonEC2FullAccess
 - AWSCloudFormationFullAccess
 
-### Create RDS database for DEV, UAT and PROD environments and create databases.
+### Create an RDS database for DEV, UAT, and PROD environments and create databases.
 - Create `developeriqdev` as the initial database.
 - Execute following commands to create `developeriquat` and `developeriqprod`.
 ```bash
