@@ -1,6 +1,6 @@
 # developeriq-cc
 This project was done as a partial completion of the course **CMM707 - Cloud Computing**.
-Following Tech-stack has been used in this project.
+The following Tech-stack has been used in this project.
 - Spring/Java
 - AWS Web Services
 - GitHub
